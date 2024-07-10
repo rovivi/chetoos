@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | game</title>
+  <style>
+    #loading-bar {
+      width: 300px;
+      /* Define un ancho específico para la barra de carga */
+      height: 30px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      background-color: #000;
+      transform: translateX(-50%);
+      z-index: 1000;
+      /* Asegúrate de que sea mayor que cualquier otro elemento en la página */
+    }
+
+    #loading-bar-inner {
+      height: 100%;
+      width: 0%;
+      background-size: contain;
+      /* Ajusta la imagen al contenedor */
+      background: url('loading.png') no-repeat;
+
+      /* Usar background-color en lugar de background para color */
+      transition: width 0.5s linear;
+    }
+
+    #loading-text {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      z-index: 1000;
+      /* Asegúrate de que sea mayor que cualquier otro elemento en la página */
+    }
+
+    #unity-canvas {
+      position: relative;
+      z-index: 1;
+      /* Asegura que el canvas tenga un z-index menor */
+    }
+  </style>
+
+</head>
+
+<body style="text-align: center; padding: 0; border: 0; margin: 0;">
+  <div id="loading-bar">
+    <div id="loading-bar-inner"></div>
+  </div>
+  <div id="loading-text">0%</div>
+  <canvas id="unity-canvas" width="960" height="600" tabindex="-1"
+    style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
+  <script src="Build/macv3.loader.js"></script>
+  <script>
+
+
+    const loadingBarInner = document.getElementById('loading-bar-inner');
+    const loadingText = document.getElementById('loading-text');
+
+    let percentage = 0; // Inicializa el porcentaje en 0
+    let interval = setInterval(function () {
+      if (percentage < 80) { // Incrementa hasta el 80%
+        percentage += 1; // Incrementa el porcentaje en 1
+        loadingBarInner.style.width = percentage + "%";
+        loadingText.textContent = percentage + "%";
+      } else {
+        clearInterval(interval); // Detiene el intervalo cuando alcanza el 80%
+      }
+    }, 20);
+    // Override the console.log function to intercept "loading!" message
+    let originalConsoleLog = console.log;
+    console.log = function (message) {
+      originalConsoleLog(message);
+      if (message === "loading!") {
+        clearInterval(interval);
+        loadingBarInner.style.width = "100%";
+        loadingText.textContent = "100%";
+        setTimeout(() => {
+          document.getElementById('loading-bar').style.display = 'none';
+          loadingText.style.display = 'none';
+        }, 500); // wait 500ms then hide the bar and text
+      }
+    };
+
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      // Mobile device style: fill the whole browser client area with the game canvas:
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+
+      var canvas = document.querySelector("#unity-canvas");
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.position = "fixed";
+
+      document.body.style.textAlign = "left";
+    }
+
+
+
+
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+      dataUrl: "Build/macv3.data.gz",
+      frameworkUrl: "Build/macv3.framework.js.gz",
+      codeUrl: "Build/macv3.wasm.gz",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "game",
+      productVersion: "4.0.2",
+      // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+      // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+    });
+  </script>
+</body>
+
+</html>

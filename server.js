@@ -12,6 +12,8 @@ const mimeTypes = {
     ".jpg": "image/jpg",
     ".gif": "image/gif",
     ".wasm": "application/wasm",
+    ".wasm": "application/wasm",
+
     ".memgz": "application/octet-stream",
     ".datagz": "application/octet-stream",
     ".unity3dgz": "application/octet-stream",
