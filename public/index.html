@@ -10,6 +10,21 @@
     body {
       background-color: #000;
     }
+
+    #portrait-image {
+      display: block;
+      /* Ocultar la imagen inicialmente */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('tuto1.webp') no-repeat center center;
+      background-size: cover;
+      z-index: 1001;
+      /* Asegúrate de que está encima de otros elementos */
+    }
+
     #loading-bar {
       width: 960px;
       height: 600px;
@@ -68,6 +83,7 @@
 </head>
 
 <body style="text-align: center; padding: 0; border: 0; margin: 0;">
+  <div id="portrait-image"></div>
   <div id="loading-bar">
     <div id="loading-bar-inner">
       <img src="loading.webp" alt="Loading">
@@ -87,7 +103,7 @@
     let interval = setInterval(function () {
       if (percentage < 80) { // Incrementa hasta el 80%
         percentage += 1; // Incrementa el porcentaje en 1
-        loadingBarInner.style.width = percentage*0.8 + "%";
+        loadingBarInner.style.width = percentage * 0.8 + "%";
         loadingText.textContent = percentage + "%";
       } else {
         clearInterval(interval); // Detiene el intervalo cuando alcanza el 80%
@@ -110,33 +126,51 @@
 
 
     document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('unity-canvas');
+      const canvas = document.getElementById('unity-canvas');
+      const laoder = document.getElementById('loading-bar');
 
-    function enterFullscreen(element) {
+      function enterFullscreen(element) {
         if (element.requestFullscreen) {
-            element.requestFullscreen();
+          element.requestFullscreen();
         } else if (element.mozRequestFullScreen) { /* Firefox */
-            element.mozRequestFullScreen();
+          element.mozRequestFullScreen();
         } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-            element.webkitRequestFullscreen();
+          element.webkitRequestFullscreen();
         } else if (element.msRequestFullscreen) { /* IE/Edge */
-            element.msRequestFullscreen();
+          element.msRequestFullscreen();
         }
-    }
+      }
 
-    function lockLandscape() {
+      function lockLandscape() {
         if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
+          screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
         }
-    }
+      }
 
-    // Set canvas size to full screen
-    canvas.style.width = '100vw';
-    canvas.style.height = '100vh';
+      // Set canvas size to full screen
+      canvas.style.width = '100vw';
+      canvas.style.height = '100vh';
+      laoder.style.width = '100vw';
+      laoder.style.height = '100vh';
+      enterFullscreen(document.documentElement); // Fullscreen the whole page
+      lockLandscape(); // Lock orientation to landscape
+    });
 
-    enterFullscreen(document.documentElement); // Fullscreen the whole page
-    lockLandscape(); // Lock orientation to landscape
-});
+    window.addEventListener('resize', function () {
+      var image = document.getElementById('portrait-image');
+      if (window.innerHeight > window.innerWidth) {
+        // Orientación portrait
+        image.style.display = 'block'; // Muestra la imagen
+      } else {
+        // Orientación landscape
+        image.style.display = 'none'; // Oculta la imagen
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Disparar el evento resize al cargar la página para ajustar la visibilidad inicial de la imagen
+      window.dispatchEvent(new Event('resize'));
+    });
 
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
