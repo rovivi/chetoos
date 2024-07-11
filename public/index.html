@@ -6,10 +6,41 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Unity WebGL Player | game</title>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       background-color: #000;
     }
+
+    #fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1002;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #FF0000;
+      /* Rojo de YouTube */
+      color: white;
+      /* Texto blanco */
+      border: none;
+      /* Sin borde */
+      border-radius: 2px;
+      /* Bordes ligeramente redondeados */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      /* Sombra suave */
+      transition: background-color 0.3s;
+      /* Transición suave del color de fondo */
+    }
+
+    #fullscreen-btn:hover {
+      background-color: #CC0000;
+      /* Rojo oscuro al pasar el mouse */
+    }
+
 
     #portrait-image {
       display: block;
@@ -90,6 +121,10 @@
       <div id="loading-text">0%</div>
     </div>
   </div>
+  <button id="fullscreen-btn"
+    style="position: fixed; top: 20px; right: 20px; z-index: 1002; padding: 10px 20px; font-size: 16px; cursor: pointer;"><i
+      class="fa-solid fa-expand"></i></button>
+
   <canvas id="unity-canvas" width="960" height="600" tabindex="-1"
     style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
   <script src="Build/macv6.loader.js"></script>
@@ -125,11 +160,7 @@
     };
 
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('unity-canvas');
-      const laoder = document.getElementById('loading-bar');
-
-      function enterFullscreen(element) {
+    function enterFullscreen(element) {
         if (element.requestFullscreen) {
           element.requestFullscreen();
         } else if (element.mozRequestFullScreen) { /* Firefox */
@@ -140,6 +171,12 @@
           element.msRequestFullscreen();
         }
       }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('unity-canvas');
+      const laoder = document.getElementById('loading-bar');
+
+      
 
       function lockLandscape() {
         if (screen.orientation && screen.orientation.lock) {
@@ -157,6 +194,8 @@
     });
 
     window.addEventListener('resize', function () {
+      const canvas = document.getElementById('unity-canvas');
+
       var image = document.getElementById('portrait-image');
       if (window.innerHeight > window.innerWidth) {
         // Orientación portrait
@@ -164,6 +203,7 @@
       } else {
         // Orientación landscape
         image.style.display = 'none'; // Oculta la imagen
+        enterFullscreen(canvas)
       }
     });
 
@@ -172,6 +212,9 @@
       window.dispatchEvent(new Event('resize'));
     });
 
+    document.getElementById('fullscreen-btn').addEventListener('click', function () {
+      enterFullscreen(document.getElementById('unity-canvas'));
+    });
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       // Mobile device style: fill the whole browser client area with the game canvas:
