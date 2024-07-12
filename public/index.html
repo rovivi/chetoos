@@ -22,7 +22,7 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      background-color: #FF0000;
+      background-color: #CCC;
       /* Rojo de YouTube */
       color: white;
       /* Texto blanco */
@@ -213,6 +213,9 @@
     });
 
     document.getElementById('fullscreen-btn').addEventListener('click', function () {
+      if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
+        }
       enterFullscreen(document.getElementById('unity-canvas'));
     });
 
