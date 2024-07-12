@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Unity WebGL Player | game</title>
+  <title>¡Ayuda a chester a salvar al mundo poffs!</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
@@ -22,7 +22,7 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      background-color: #CCC;
+      background-color: #CCCC;
       /* Rojo de YouTube */
       color: white;
       /* Texto blanco */
@@ -37,10 +37,9 @@
     }
 
     #fullscreen-btn:hover {
-      background-color: #CC0000;
+      background-color: #DDD;
       /* Rojo oscuro al pasar el mouse */
     }
-
 
     #portrait-image {
       display: block;
@@ -127,24 +126,36 @@
 
   <canvas id="unity-canvas" width="960" height="600" tabindex="-1"
     style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
+
   <script src="Build/macv6.loader.js"></script>
   <script>
-
 
     const loadingBarInner = document.getElementById('loading-bar-inner');
     const loadingText = document.getElementById('loading-text');
 
     let percentage = 0; // Inicializa el porcentaje en 0
-    let interval = setInterval(function () {
-      if (percentage < 80) { // Incrementa hasta el 80%
-        percentage += 1; // Incrementa el porcentaje en 1
-        loadingBarInner.style.width = percentage * 0.8 + "%";
-        loadingText.textContent = percentage + "%";
+    let interval = setInterval(() => {
+      if (percentage < 70) {
+        progress();
       } else {
-        clearInterval(interval); // Detiene el intervalo cuando alcanza el 80%
+        clearInterval(interval); // Detiene el primer intervalo
+        interval = setInterval(() => {
+          if (percentage == 98) {
+            clearInterval(interval); // Detiene este segundo intervalo cuando llegue a 99
+            return
+          }
+          progress();
+        }, 600);
       }
     }, 80);
-    // Override the console.log function to intercept "loading!" message
+
+    let progress = () => {
+      percentage++;
+      loadingBarInner.style.width = percentage * 0.8 + "%";
+      loadingText.textContent = percentage + "%";
+    }
+
+    // Sobrescritura de console.log para interceptar el mensaje "loading!"
     let originalConsoleLog = console.log;
     console.log = function (message) {
       originalConsoleLog(message);
@@ -155,55 +166,78 @@
         setTimeout(() => {
           document.getElementById('loading-bar').style.display = 'none';
           loadingText.style.display = 'none';
-        }, 500); // wait 500ms then hide the bar and text
+        }, 500); // Espera 500ms para ocultar la barra y el texto
       }
     };
 
 
-    function enterFullscreen(element) {
-        if (element.requestFullscreen) {
-          element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) { /* Firefox */
-          element.mozRequestFullScreen();
-        } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-          element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) { /* IE/Edge */
-          element.msRequestFullscreen();
-        }
+    function enterFullscreen() {
+      let element = document.documentElement
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) { /* Firefox */
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) { /* IE/Edge */
+        element.msRequestFullscreen();
       }
+      const canvas = document.getElementById('unity-canvas');
+      canvas.focus()
+    }
+
+
+    function lockLandscape() {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
+      }
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('unity-canvas');
       const laoder = document.getElementById('loading-bar');
 
-      
 
       function lockLandscape() {
         if (screen.orientation && screen.orientation.lock) {
           screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
         }
       }
-
       // Set canvas size to full screen
       canvas.style.width = '100vw';
       canvas.style.height = '100vh';
       laoder.style.width = '100vw';
       laoder.style.height = '100vh';
-      enterFullscreen(document.documentElement); // Fullscreen the whole page
+      enterFullscreen(); // Fullscreen the whole page
       lockLandscape(); // Lock orientation to landscape
     });
 
     window.addEventListener('resize', function () {
       const canvas = document.getElementById('unity-canvas');
-
       var image = document.getElementById('portrait-image');
+      var button = document.getElementById('fullscreen-btn');
       if (window.innerHeight > window.innerWidth) {
         // Orientación portrait
         image.style.display = 'block'; // Muestra la imagen
+        button.style.display = 'none'; // Muestra la imagen
       } else {
         // Orientación landscape
         image.style.display = 'none'; // Oculta la imagen
-        enterFullscreen(canvas)
+        button.style.display = 'block'; // Oculta la imagen
+        enterFullscreen()
+      }
+    });
+
+
+    document.addEventListener("fullscreenchange", () => {
+      var button = document.getElementById('fullscreen-btn');
+
+      if (document.fullscreenElement) {
+      const canvas = document.getElementById('unity-canvas');
+        canvas.focus()
+        button.style.display = 'none'; // Oculta la imagen
+      } else {
+        button.style.display = 'block'; // Oculta la imagen
       }
     });
 
@@ -214,25 +248,10 @@
 
     document.getElementById('fullscreen-btn').addEventListener('click', function () {
       if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
-        }
-      enterFullscreen(document.getElementById('unity-canvas'));
+        screen.orientation.lock('landscape').catch(err => console.error("Error locking the orientation", err));
+      }
+      enterFullscreen();
     });
-
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      // Mobile device style: fill the whole browser client area with the game canvas:
-      var meta = document.createElement('meta');
-      meta.name = 'viewport';
-      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-      document.getElementsByTagName('head')[0].appendChild(meta);
-
-      var canvas = document.querySelector("#unity-canvas");
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-      canvas.style.position = "fixed";
-
-      document.body.style.textAlign = "left";
-    }
 
     createUnityInstance(document.querySelector("#unity-canvas"), {
       dataUrl: "Build/macv6.data.gz",
@@ -245,6 +264,16 @@
       // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
       // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
     });
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0TC5KW0YW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-P0TC5KW0YW');
   </script>
 </body>
 
