@@ -1,7 +1,10 @@
 {
-    ".memgz": "application/octet-stream",
-    ".datagz": "application/octet-stream",
-    ".unity3dgz": "application/octet-stream",
-    ".jsgz": "application/javascript"
-  }
-  
+  ".memgz": "application/octet-stream",
+  ".datagz": "application/octet-stream",
+  ".unity3dgz": "application/octet-stream",
+  ".jsgz": "application/javascript",
+  ".membrotli": "application/octet-stream",
+  ".databrotli": "application/octet-stream",
+  ".unity3dbrotli": "application/octet-stream",
+  ".jsbrotli": "application/javascript"
+}
