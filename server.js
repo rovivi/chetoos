@@ -87,7 +87,7 @@ const httpServer = http.createServer((req, res) => {
     res.end();
 });
 
-const HTTP_PORT = 8080; // Puerto para HTTP
+const HTTP_PORT = 80; // Puerto para HTTP
 httpServer.listen(HTTP_PORT, () => {
     console.log(`HTTP Server listening on port ${HTTP_PORT}`);
 });
