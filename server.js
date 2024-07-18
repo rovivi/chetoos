@@ -78,3 +78,17 @@ const PORT = 443; // Puedes cambiar el puerto si lo deseas
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
+
+
+// Código para el servidor HTTP que redirige a HTTPS
+const http = require('http');
+
+const httpServer = http.createServer((req, res) => {
+    res.writeHead(301, { "Location": `https://${req.headers.host}${req.url}` });
+    res.end();
+});
+
+const HTTP_PORT = 8080; // Puerto para HTTP
+httpServer.listen(HTTP_PORT, () => {
+    console.log(`HTTP Server listening on port ${HTTP_PORT}`);
+});
