@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const url = require('url');
 const path = require('path');
@@ -19,7 +20,15 @@ const mimeTypes = {
     ".*": "application/octet-stream"
 };
 
-const server = http.createServer(function (req, res) {
+const options = {
+    key: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo_online.crt')),
+    ca: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo_online.ca-bundle'))
+};
+
+
+
+const server = https.createServer(options,function (req, res) {
     let parsedUrl = url.parse(req.url);
     let pathname = `./public${parsedUrl.pathname}`;
 
@@ -65,7 +74,7 @@ const server = http.createServer(function (req, res) {
     });
 });
 
-const PORT = 80; // Puedes cambiar el puerto si lo deseas
+const PORT = 5001; // Puedes cambiar el puerto si lo deseas
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
