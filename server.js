@@ -12,8 +12,6 @@ const mimeTypes = {
     ".jpg": "image/jpg",
     ".gif": "image/gif",
     ".wasm": "application/wasm",
-    ".wasm": "application/wasm",
-
     ".memgz": "application/octet-stream",
     ".datagz": "application/octet-stream",
     ".unity3dgz": "application/octet-stream",
@@ -24,7 +22,14 @@ const mimeTypes = {
 const server = http.createServer(function (req, res) {
     let parsedUrl = url.parse(req.url);
     let pathname = `./public${parsedUrl.pathname}`;
-    if (pathname === './public/') {
+
+    if (parsedUrl.pathname === '/') {
+        res.writeHead(302, { 'Location': '/chetos-poff' });
+        res.end();
+        return;
+    }
+
+    if (parsedUrl.pathname === '/chetos-poff') {
         pathname = './public/index.html';
     }
 
