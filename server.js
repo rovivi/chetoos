@@ -81,7 +81,6 @@ server.listen(PORT, () => {
 
 
 // Código para el servidor HTTP que redirige a HTTPS
-const http = require('http');
 
 const httpServer = http.createServer((req, res) => {
     res.writeHead(301, { "Location": `https://${req.headers.host}${req.url}` });
