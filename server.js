@@ -74,7 +74,7 @@ const server = https.createServer(options,function (req, res) {
     });
 });
 
-const PORT = 5001; // Puedes cambiar el puerto si lo deseas
+const PORT = 80; // Puedes cambiar el puerto si lo deseas
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
