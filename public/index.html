@@ -117,7 +117,8 @@
       <div id="loading-text">0%</div>
     </div>
   </div>
-  <button id="fullscreen-btn" style="position: fixed; top: 20px; right: 20px; z-index: 1002; padding: 10px; cursor: pointer; border: none; background-color: transparent;">
+  <button id="fullscreen-btn"
+    style="position: fixed; top: 20px; right: 20px; z-index: 1002; padding: 10px; cursor: pointer; border: none; background-color: transparent;">
     <img src="fullscreen-min.png" alt="Fullscreen" style="width: 50px; height: 50px;">
   </button>
   <canvas id="unity-canvas" width="960" height="600" tabindex="-1"
@@ -229,7 +230,7 @@
       var button = document.getElementById('fullscreen-btn');
 
       if (document.fullscreenElement) {
-      const canvas = document.getElementById('unity-canvas');
+        const canvas = document.getElementById('unity-canvas');
         button.style.display = 'none'; // Oculta la imagen
         canvas.focus()
       } else {
@@ -251,24 +252,24 @@
 
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
+      // Mobile device style: fill the whole browser client area with the game canvas:
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
 
-        var canvas = document.querySelector("#unity-canvas");
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "fixed";
-        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)){
-          var button = document.getElementById('fullscreen-btn');
-          button.remove()
-        }
-
-
-        document.body.style.textAlign = "left";
+      var canvas = document.querySelector("#unity-canvas");
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.position = "fixed";
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        var button = document.getElementById('fullscreen-btn');
+        button.remove()
       }
+
+
+      document.body.style.textAlign = "left";
+    }
 
 
     createUnityInstance(document.querySelector("#unity-canvas"), {
@@ -285,13 +286,13 @@
   </script>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0TC5KW0YW"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-63RFYEHVRR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'G-P0TC5KW0YW');
+    gtag('config', 'G-63RFYEHVRR');
   </script>
 </body>
 
