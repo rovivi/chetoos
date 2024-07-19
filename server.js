@@ -33,12 +33,12 @@ const server = https.createServer(options,function (req, res) {
     let pathname = `./public${parsedUrl.pathname}`;
 
     if (parsedUrl.pathname === '/') {
-        res.writeHead(302, { 'Location': '/chetos-poff' });
+        res.writeHead(302, { 'Location': '/cheetos-poff' });
         res.end();
         return;
     }
 
-    if (parsedUrl.pathname === '/chetos-poff') {
+    if (parsedUrl.pathname === '/cheetos-poff') {
         pathname = './public/index.html';
     }
 
