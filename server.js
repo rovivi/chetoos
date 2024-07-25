@@ -22,7 +22,7 @@ const mimeTypes = {
 
 const options = {
     key: fs.readFileSync(path.join(__dirname, 'cert/key.key')),
-    cert: fs.readFileSync(path.join(__dirname, 'cert/programamticinmersivo_online.crt')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert/programmaticinmersivo_online.crt')),
     ca: fs.readFileSync(path.join(__dirname, 'cert/programmaticinmersivo_online.ca-bundle'))
 };
 
