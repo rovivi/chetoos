@@ -21,9 +21,9 @@ const mimeTypes = {
 };
 
 const options = {
-    key: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo.key')),
-    cert: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo_online.crt')),
-    ca: fs.readFileSync(path.join(__dirname, 'cert/programaticinmersivo_online.ca-bundle'))
+    key: fs.readFileSync(path.join(__dirname, 'cert/key.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert/programamticinmersivo_online.crt')),
+    ca: fs.readFileSync(path.join(__dirname, 'cert/programmaticinmersivo_online.ca-bundle'))
 };
 
 
