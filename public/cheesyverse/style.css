@@ -4,7 +4,7 @@ body { padding: 0; margin: 0 }
 #unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
 #unity-canvas {  background: url('loadingcover.webp') no-repeat center }
 .unity-mobile #unity-canvas { width: 100%; height: 100% }
-#unity-loading-bar { position: absolute; left: 50%; top: 65%; transform: translate(-50%, -50%); display: none }
+#unity-loading-bar { position: absolute; left: 50%; top: 75%; transform: translate(-50%, -50%); display: none }
 #unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; }
 #unity-progress-bar-full {
     width: 0%;
